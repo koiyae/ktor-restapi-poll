@@ -1,6 +1,5 @@
 package ktor.koiyae.repositories
 
-import ktor.koiyae.models.Poll
 import ktor.koiyae.models.PollResponse
 
 class PollRepository {
@@ -11,20 +10,20 @@ class PollRepository {
         _poll.add(task)
     }
 
-    fun addPollItem(newPoll: Poll) {
-        if(_poll.isNotEmpty()) {
-            val currentPoll = _poll[0]
-            val updatedItems = currentPoll.poll.enqueteItemDto + newPoll
-            val updatedTotalVotes = currentPoll.poll.totalVotes + newPoll.itemTotalVotes
-            val updatedPoll = currentPoll.copy(
-                poll = currentPoll.poll.copy(
-                    totalVotes = updatedTotalVotes,
-                    enqueteItemDto = updatedItems
-                )
-            )
-
-            _poll[0] = updatedPoll
+    fun updateVote(id: String, newValue: Int): Boolean {
+        _poll.forEach { response ->
+            response.poll.enqueteItemDto.find { it.id == id }?.let {
+                it.itemTotalVotes = newValue
+                recalculateTotalVotes(response)
+                return true
+            }
         }
+        return false
+    }
+
+    private fun recalculateTotalVotes(response: PollResponse) {
+        val total = response.poll.enqueteItemDto.sumOf { it.itemTotalVotes }
+        response.poll = response.poll.copy(totalVotes = total)
     }
 
     companion object {

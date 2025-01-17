@@ -6,12 +6,12 @@ import ktor.koiyae.models.TotalPoll
 
 fun createMessages(): List<Poll> {
     return listOf(
-        Poll("29.63%", 8),
-        Poll("18,52%", 5),
-        Poll("7,41%", 2),
-        Poll("7,41%", 2),
-        Poll("14,81%", 4),
-        Poll("22.22%", 6)
+        Poll("1","29.63%", 8),
+        Poll("2","18,52%", 5),
+        Poll("3","7,41%", 2),
+        Poll("4","7,41%", 2),
+        Poll("5","14,81%", 4),
+        Poll("6","22.22%", 6)
     )
 }
 

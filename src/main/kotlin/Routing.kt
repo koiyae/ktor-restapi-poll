@@ -10,6 +10,7 @@ import io.ktor.server.routing.*
 import kotlinx.serialization.json.Json
 import ktor.koiyae.models.Poll
 import ktor.koiyae.models.PollResponse
+import ktor.koiyae.models.UpdateVoteRequest
 import ktor.koiyae.repositories.PollRepository
 
 fun Application.configureRouting() {
@@ -31,10 +32,14 @@ fun Application.configureRouting() {
             repository.save(task)
             call.respondText("Item criado", status = HttpStatusCode.Created)
         }
-        post("/poll/item") {
-            val newPollItem = call.receive<Poll>()
-            repository.addPollItem(newPollItem)
-            call.respondText("Item adicionado à enquete", status = HttpStatusCode.Created)
+        post("/poll/update") {
+            val updateRequest = call.receive<UpdateVoteRequest>()
+            val updated = repository.updateVote(updateRequest.id, updateRequest.newValue)
+            if(updated) {
+                call.respondText("Voto atualizado com sucesso", status = HttpStatusCode.Created)
+            } else {
+                call.respondText("Item não encontrado", status = HttpStatusCode.NotFound)
+            }
         }
     }
 }

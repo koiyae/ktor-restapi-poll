@@ -3,8 +3,7 @@ package ktor.koiyae.models
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Poll(
+data class UpdateVoteRequest(
     val id: String,
-    val itemStatistics: String,
-    var itemTotalVotes: Int
+    val newValue: Int
 )

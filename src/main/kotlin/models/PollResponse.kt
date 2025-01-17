@@ -4,5 +4,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PollResponse(
-    val poll: TotalPoll
+    var poll: TotalPoll
 )
